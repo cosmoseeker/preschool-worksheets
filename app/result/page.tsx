@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -216,6 +216,21 @@ function ShapeWorksheetSVG({ name, icon, color, themeIcon }: {
 }
 
 export default function ResultPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen py-12 px-4 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">🔄</div>
+          <p className="text-xl">Loading your worksheet...</p>
+        </div>
+      </main>
+    }>
+      <ResultContent />
+    </Suspense>
+  );
+}
+
+function ResultContent() {
   const searchParams = useSearchParams();
   const worksheetRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
