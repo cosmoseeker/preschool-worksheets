@@ -12,3 +12,4 @@ out/
 dev.db
 *.db
 prisma/migrations/
+.vercel
