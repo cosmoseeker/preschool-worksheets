@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
+import PayPalProvider from "@/components/PayPalProvider";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
@@ -17,8 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <SessionProvider>
-          <Navbar />
-          {children}
+          <PayPalProvider>
+            <Navbar />
+            {children}
+          </PayPalProvider>
         </SessionProvider>
       </body>
     </html>

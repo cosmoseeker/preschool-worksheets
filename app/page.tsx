@@ -125,12 +125,20 @@ export default function Home() {
           <p className="text-xl text-gray-700 mb-8">
             It&apos;s free, fun, and takes less than a minute!
           </p>
-          <Link 
-            href="/generator"
-            className="btn-fun bg-white text-secondary-500 border-4 border-secondary-400 text-xl px-10 py-4 inline-block"
-          >
-            🎨 Create Your First Worksheet
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link 
+              href="/generator"
+              className="btn-fun bg-white text-secondary-500 border-4 border-secondary-400 text-xl px-10 py-4 inline-block"
+            >
+              🎨 Create Your First Worksheet
+            </Link>
+            <Link 
+              href="/pricing"
+              className="btn-fun bg-gradient-to-r from-primary-400 to-secondary-400 text-xl px-10 py-4 inline-block"
+            >
+              💳 View Pricing
+            </Link>
+          </div>
         </div>
       </section>
 

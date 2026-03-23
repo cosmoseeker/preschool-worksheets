@@ -22,6 +22,12 @@ export default function Navbar() {
               Home
             </Link>
             <Link
+              href="/pricing"
+              className="px-4 py-2 rounded-lg hover:bg-primary-100 transition-colors font-semibold"
+            >
+              💳 Pricing
+            </Link>
+            <Link
               href="/generator"
               className="px-4 py-2 bg-primary-400 text-white rounded-lg hover:bg-primary-500 transition-colors font-semibold"
             >
