@@ -25,32 +25,6 @@ export default function PayPalButton({ plan, onSuccess }: PayPalButtonProps) {
   const router = useRouter();
   const selectedPlan = plans[plan];
 
-  const createOrder = (data: unknown, actions: { order: { create: (arg0: { purchase_units: { description: string; amount: { currency_code: string; value: string; }; }[]; }) => Promise<unknown>; }; }) => {
-    return actions.order.create({
-      purchase_units: [
-        {
-          description: `${selectedPlan.name} - ${selectedPlan.credits} Credits`,
-          amount: {
-            currency_code: 'USD',
-            value: selectedPlan.price,
-          },
-        },
-      ],
-    });
-  };
-
-  const onApprove = (data: { orderID: string }, actions: { order: { capture: () => Promise<{ status: string; }>; }; }) => {
-    return actions.order.capture().then((details) => {
-      // Payment successful
-      console.log('Payment completed:', details);
-      
-      // Redirect to success page
-      router.push(`/payment/success?plan=${plan}&credits=${selectedPlan.credits}`);
-      
-      onSuccess?.();
-    });
-  };
-
   return (
     <div className="w-full">
       <PayPalButtons
@@ -60,8 +34,29 @@ export default function PayPalButton({ plan, onSuccess }: PayPalButtonProps) {
           shape: 'rect',
           label: 'paypal',
         }}
-        createOrder={createOrder}
-        onApprove={onApprove}
+        createOrder={(data, actions) => {
+          return actions.order.create({
+            intent: 'CAPTURE',
+            purchase_units: [
+              {
+                description: `${selectedPlan.name} - ${selectedPlan.credits} Credits`,
+                amount: {
+                  currency_code: 'USD',
+                  value: selectedPlan.price,
+                },
+              },
+            ],
+          });
+        }}
+        onApprove={(data, actions) => {
+          if (!actions?.order) return Promise.resolve();
+          
+          return actions.order.capture().then((details) => {
+            console.log('Payment completed:', details);
+            router.push(`/payment/success?plan=${plan}&credits=${selectedPlan.credits}`);
+            onSuccess?.();
+          });
+        }}
         onCancel={() => {
           router.push('/payment/cancel');
         }}
